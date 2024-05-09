@@ -1,18 +1,17 @@
 package com.BlogPage.BlogApp.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 
 @Getter
 @Setter
+@Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
+@Data
+@Table(name="Author")
 public class Author {
 
     @Id
@@ -24,6 +23,5 @@ public class Author {
 
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
     private List<Blog> blogList;
-
 
 }

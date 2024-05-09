@@ -44,5 +44,16 @@ public class AuthorController {
         return authorServiceImpl.getAuthor(authorId);
     }
 
+    @Tag(name = "Delete author")
+    @DeleteMapping("/{authorId}")
+    public ResponseEntity<ApiResponse<String>> deleteAuthor(@PathVariable Long authorId){
+        return authorServiceImpl.deleteAuthor(authorId);
+    }
+
+    @Tag(name="Update author")
+    @PutMapping("/{authorId}")
+    public ResponseEntity<ApiResponse<Author>> updateAuthor(@PathVariable Long authorId  , @Valid @RequestBody AuthorDto authorDto){
+        return authorServiceImpl.updateAuthor(authorId,authorDto);
+    }
 
 }
