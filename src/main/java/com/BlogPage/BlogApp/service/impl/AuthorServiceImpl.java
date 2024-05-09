@@ -14,6 +14,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class AuthorServiceImpl implements AuthorService {
 
@@ -43,6 +45,21 @@ public class AuthorServiceImpl implements AuthorService {
         return ResponseUtil.createErrorResponse(
                 HttpStatus.INTERNAL_SERVER_ERROR, "Failed to create user", "failed");
     }
+
+    @Override
+    public ResponseEntity<ApiResponse<List<Author>>> getAuthors() {
+        try{
+            logger.info("Fetching all authors");
+            List<Author> authors = authorRepository.findAll();
+            logger.info("Fetched all authors");
+            return ResponseUtil.createSuccessResponse(HttpStatus.OK, " Author fetched successfully" , authors);
+        }catch(Exception e) {
+            logger.error("Failed to fetch " + e.getMessage());
+            return ResponseUtil.createErrorResponse(
+                    HttpStatus.INTERNAL_SERVER_ERROR, "Failted to fetch authors", null);
+        }
+    }
+
 }
 
 

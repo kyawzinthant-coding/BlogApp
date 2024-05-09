@@ -1,6 +1,7 @@
 package com.BlogPage.BlogApp.controller;
 
 import com.BlogPage.BlogApp.Dto.AuthorDto;
+import com.BlogPage.BlogApp.model.Author;
 import com.BlogPage.BlogApp.service.impl.AuthorServiceImpl;
 import com.BlogPage.BlogApp.util.ResponseTemplate.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -9,10 +10,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 @RestController
@@ -31,6 +31,12 @@ public class AuthorController {
     @PostMapping("/")
     public ResponseEntity<ApiResponse<String>> createAuthor(@Valid @RequestBody AuthorDto authorDto){
         return authorServiceImpl.createAuthor(authorDto);
+    }
+
+    @Tag(name="Get all authors" , description = "Fetch all authors")
+    @GetMapping("/")
+    public ResponseEntity<ApiResponse<List<Author>>> getAuthors() {
+        return authorServiceImpl.getAuthors();
     }
 
 
