@@ -12,5 +12,5 @@ public interface AuthorService {
     ResponseEntity<ApiResponse<String>> createAuthor(AuthorDto authorDto);
 
     ResponseEntity<ApiResponse<List<Author>>> getAuthors();
-
+    ResponseEntity<ApiResponse<Author>> getAuthor(Long authorId);
 }

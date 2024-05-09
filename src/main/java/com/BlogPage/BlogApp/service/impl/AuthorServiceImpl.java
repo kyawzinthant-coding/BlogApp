@@ -7,6 +7,7 @@ import com.BlogPage.BlogApp.service.AuthorService;
 import com.BlogPage.BlogApp.util.ResponseTemplate.ApiResponse;
 import com.BlogPage.BlogApp.util.ResponseTemplate.EntityMapper;
 import com.BlogPage.BlogApp.util.ResponseTemplate.ResponseUtil;
+import jakarta.persistence.EntityExistsException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,7 +53,21 @@ public class AuthorServiceImpl implements AuthorService {
             logger.info("Fetching all authors");
             List<Author> authors = authorRepository.findAll();
             logger.info("Fetched all authors");
-            return ResponseUtil.createSuccessResponse(HttpStatus.OK, " Author fetched successfully" , authors);
+            return ResponseUtil.createSuccessResponse(HttpStatus.OK, " Authors fetched successfully" , authors);
+        }catch(Exception e) {
+            logger.error("Failed to fetch " + e.getMessage());
+            return ResponseUtil.createErrorResponse(
+                    HttpStatus.INTERNAL_SERVER_ERROR, "Failted to fetch authors", null);
+        }
+    }
+
+    @Override
+    public ResponseEntity<ApiResponse<Author>> getAuthor(Long authorId) {
+        try{
+            logger.info("Start fetching author");
+            Author author = authorRepository.findById(authorId).orElseThrow(EntityExistsException::new);
+            logger.info("Success");
+            return ResponseUtil.createSuccessResponse(HttpStatus.OK, "Author fetch successfully", author);
         }catch(Exception e) {
             logger.error("Failed to fetch " + e.getMessage());
             return ResponseUtil.createErrorResponse(

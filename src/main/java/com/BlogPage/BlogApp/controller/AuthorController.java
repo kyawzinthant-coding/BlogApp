@@ -38,6 +38,11 @@ public class AuthorController {
     public ResponseEntity<ApiResponse<List<Author>>> getAuthors() {
         return authorServiceImpl.getAuthors();
     }
+    @Tag(name="Get Single Author")
+    @GetMapping("/{authorId}")
+    public ResponseEntity<ApiResponse<Author>>  getAuthor(@PathVariable Long authorId) {
+        return authorServiceImpl.getAuthor(authorId);
+    }
 
 
 }
