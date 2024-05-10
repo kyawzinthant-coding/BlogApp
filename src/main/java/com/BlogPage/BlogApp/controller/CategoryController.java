@@ -40,4 +40,11 @@ public class CategoryController {
         return ResponseUtil.createErrorResponse(HttpStatus.OK, "Success", categoryDto1);
     }
 
+    @Tag(name="Delete new Category")
+    @DeleteMapping("/{categoryId}")
+    public ResponseEntity<ApiResponse<String>> deleteCategory(@PathVariable Long categoryId){
+        categoryService.DeleteCategory(categoryId);
+        return  ResponseUtil.createSuccessResponse(HttpStatus.OK, "Success" , "Deleted");
+    }
+
 }

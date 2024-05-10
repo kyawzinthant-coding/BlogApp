@@ -48,4 +48,17 @@ public class CategoryServiceImpl implements CategoryService {
 
         return modelMapper.map(savedCategory, CategoryDto.class);
     }
+
+    @Override
+    public void DeleteCategory(Long categoryId) {
+        Optional<Category> optionalCategory = categoryRepository.findById(categoryId);
+
+        if (optionalCategory.isPresent()) {
+            Category existingCategory = optionalCategory.get();
+            categoryRepository.delete(existingCategory);
+        } else {
+            throw new IllegalArgumentException("Category with ID " + categoryId + " not found");
+        }
+    }
+
 }
