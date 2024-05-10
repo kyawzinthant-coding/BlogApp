@@ -8,7 +8,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.naming.NameAlreadyBoundException;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -29,4 +31,21 @@ public class CategoryServiceImpl implements CategoryService {
         return categories.stream().map((category -> modelMapper.map(category,CategoryDto.class))).collect(Collectors.toList());
     }
 
+    @Override
+    public CategoryDto createCategory(CategoryDto categoryDto) {
+        Optional<Category> optionalCategory = categoryRepository.findByName(categoryDto.getName());
+
+        if(optionalCategory.isPresent()) {
+            try {
+                throw new NameAlreadyBoundException("Name already exist");
+            } catch (NameAlreadyBoundException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        Category category= modelMapper.map(categoryDto, Category.class);
+        Category savedCategory = categoryRepository.save(category);
+
+        return modelMapper.map(savedCategory, CategoryDto.class);
+    }
 }
